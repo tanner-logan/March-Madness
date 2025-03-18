@@ -23,54 +23,26 @@ document.getElementById("magicbtn").addEventListener("click", function () {
 	const pointsPGWeight = (document.getElementById("pointsPG").value * 5) / 100;
 	const opponentsPointsPGWeight = (document.getElementById("opponentsPointsPG").value * 5) / 100;
 	let optionalFTBuffChecked = document.getElementById("optionalFTBuff").checked;
-	//
-	//
-	//
-	//
-	//
-	// SEND ROUND 64 TEAM NAMES TO BRACKET
-	let wNum = 17;
-	for (let i = 0; i < west.length; i++) {
-		// GETS THE SEASON TOTAL FOUL COUNT OF ALL THE TEAMS COMBINED
-		totalFouls = totalFouls + Number(west[i].foulsPG);
-		// GETS THE SEASON TOTAL FREE THROW PERCENTAGES ADDED UP TO LATER GET AN AVERAGE
-		totalFTPercentage = totalFTPercentage + Number(west[i].ftPercentage);
-		document.getElementById(`c1s${wNum}`).textContent = west[i].name;
-		wNum++;
+
+	// Helper to update team names and accumulate totals for round 64.
+	function updateTeamNames(teams, prefix, startIndex) {
+		// teams: array of team objects, prefix: e.g. "c1s", startIndex: starting number for element suffix.
+		let index = startIndex;
+		teams.forEach((team) => {
+			totalFouls += Number(team.foulsPG);
+			totalFTPercentage += Number(team.ftPercentage);
+			document.getElementById(`${prefix}${index}`).textContent = team.name;
+			index++;
+		});
+		return index;
 	}
-	let eNum = 1;
-	for (let i = 0; i < east.length; i++) {
-		// GETS THE SEASON TOTAL FOUL COUNT OF ALL THE TEAMS COMBINED
-		totalFouls = totalFouls + Number(east[i].foulsPG);
-		// GETS THE SEASON TOTAL FREE THROW PERCENTAGES ADDED UP TO LATER GET AN AVERAGE
-		totalFTPercentage = totalFTPercentage + Number(east[i].ftPercentage);
-		document.getElementById(`c1s${eNum}`).textContent = east[i].name;
-		eNum++;
-	}
-	let sNum = 1;
-	for (let i = 0; i < south.length; i++) {
-		// GETS THE SEASON TOTAL FOUL COUNT OF ALL THE TEAMS COMBINED
-		totalFouls = totalFouls + Number(south[i].foulsPG);
-		// GETS THE SEASON TOTAL FREE THROW PERCENTAGES ADDED UP TO LATER GET AN AVERAGE
-		totalFTPercentage = totalFTPercentage + Number(south[i].ftPercentage);
-		document.getElementById(`c11s${sNum}`).textContent = south[i].name;
-		sNum++;
-	}
-	let mwNum = 17;
-	for (let i = 0; i < mwest.length; i++) {
-		// GETS THE SEASON TOTAL FOUL COUNT OF ALL THE TEAMS COMBINED
-		totalFouls = totalFouls + Number(mwest[i].foulsPG);
-		// GETS THE SEASON TOTAL FREE THROW PERCENTAGES ADDED UP TO LATER GET AN AVERAGE
-		totalFTPercentage = totalFTPercentage + Number(mwest[i].ftPercentage);
-		document.getElementById(`c11s${mwNum}`).textContent = mwest[i].name;
-		mwNum++;
-	}
-	//
-	//
-	//
-	//
-	//
-	//
+
+	// Replace round 64 loops with the helper:
+	updateTeamNames(west, "c1s", 17);
+	updateTeamNames(east, "c1s", 1);
+	updateTeamNames(south, "c11s", 1);
+	updateTeamNames(mwest, "c11s", 17);
+
 	const checkWinner = (t1, t2) => {
 		const game = {
 			team1: t1.name,
